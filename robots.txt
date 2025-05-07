@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://aaroophan.github.io/SVG-ify/sitemap.xml

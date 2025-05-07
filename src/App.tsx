@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, AlertTriangle, CheckCircle, Download, Instagram, Linkedin, Github, Store } from 'lucide-react';
+import { Wand, AlertTriangle, CheckCircle, Download, Instagram, Linkedin, Github, Store } from 'lucide-react';
 import '@fontsource/roboto';
 import '@fontsource/open-sans';
 import '@fontsource/lato';
@@ -68,10 +68,10 @@ const fonts = [
 ];
 
 function App() {
-  const [text, setText] = useState('Hello');
-  const [fontSize, setFontSize] = useState(40);
-  const [fillColor, setFillColor] = useState('#000000');
-  const [selectedFont, setSelectedFont] = useState(fonts[0]);
+  const [text, setText] = useState('Aaroophan');
+  const [fontSize, setFontSize] = useState(56);
+  const [fillColor, setFillColor] = useState('#00357a');
+  const [selectedFont, setSelectedFont] = useState(fonts[20]);
   const [svgResult, setSvgResult] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -154,14 +154,15 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-gradient-to-br from-sky-300 to-blue-700">
       <div className="container mx-auto px-4 py-8">
+        <br/><br/>
         <header className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">SVG-ify</h1>
-          <p className="text-gray-600">Convert text to SVG with individual path elements for each character component</p>
+          <h1 className="text-3xl font-bold text-blue-900 mb-2">SVG-ify</h1>
+          <p className="text-blue-900">Convert text to SVG with individual path elements for each character component</p>
         </header>
 
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden max-w-4xl mx-auto">
+        <div className="bg-gradient-to-br from-sky-200 to-blue-200 rounded-xl shadow-3xl overflow-hidden max-w-4xl mx-auto">
           <div className="p-6">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
@@ -174,7 +175,7 @@ function App() {
                   value={text}
                   onChange={(e) => setText(e.target.value)}
                   style={{ fontFamily: selectedFont.family }}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-5 py-2 border text-3xl border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   required
                 />
               </div>
@@ -242,7 +243,7 @@ function App() {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors disabled:opacity-50"
+                  className="w-full inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors disabled:opacity-50 bg-gradient-to-br from-sky-400 to-blue-700"
                 >
                   {loading ? (
                     <>
@@ -254,7 +255,7 @@ function App() {
                     </>
                   ) : (
                     <>
-                      <Search className="mr-2 h-4 w-4" />
+                        <Wand className="mr-2 h-4 w-4" />
                       Generate SVG
                     </>
                   )}
@@ -277,9 +278,9 @@ function App() {
                 </div>
               </div>
             )}
-
             {success && svgResult && (
               <div className="mt-6 space-y-6">
+                <hr className="bg-gradient-to-br from-sky-900 to-blue-900" />
                 <div className="border border-gray-200 rounded-lg p-4 bg-gray-50">
                   <h3 className="text-lg font-medium text-gray-900 mb-2">SVG Preview</h3>
                   <div className="flex justify-center items-center min-h-[200px] bg-white rounded-md p-4">
@@ -287,7 +288,7 @@ function App() {
                   </div>
                   <button
                     onClick={downloadSvg}
-                    className="mt-4 flex items-center justify-center w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                    className="mt-4 flex items-center justify-center w-full px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 bg-gradient-to-br from-sky-400 to-blue-700"
                   >
                     <Download className="h-5 w-5 mr-2" />
                     Download SVG
@@ -367,14 +368,14 @@ function App() {
           </div>
         </div>
 
-        <footer className="bg-transparent text-black py-6">
+        <footer className="bg-transparent text-blue-900 py-6">
           <br /><br />
           <div className="container mx-auto px-4">
             <hr className="border-blue-300 mb-4" />
             <div className="text-center">
               <a
-                href="http://aaroophan.onrender.com/"
-                className="inline-flex items-center gap-2 text-black-400 hover:text-blue-600 transition-colors duration-200"
+                href="https://aaroophan.onrender.com"
+                className="inline-flex items-center gap-2 text-blue-900 hover:text-blue-50 transition-colors duration-200"
               >
                 &copy; 2025
                 <img
@@ -390,7 +391,7 @@ function App() {
                   <a
                     href="http://aaroophan.onrender.com"
                     aria-label="Portfolio"
-                    className="hover:text-blue-600 transition-colors duration-200"
+                    className="hover:text-blue-50 transition-colors duration-200"
                   >
                     <Store size={15} />
                   </a>
@@ -399,7 +400,7 @@ function App() {
                   <a
                     href="https://www.instagram.com/aaroophan/?theme=dark"
                     aria-label="Instagram"
-                    className="hover:text-blue-600 transition-colors duration-200"
+                    className="hover:text-blue-50 transition-colors duration-200"
                   >
                     <Instagram size={15} />
                   </a>
@@ -408,7 +409,7 @@ function App() {
                   <a
                     href="https://www.linkedin.com/in/aaroophan"
                     aria-label="LinkedIn"
-                    className="hover:text-blue-600 transition-colors duration-200"
+                    className="hover:text-blue-50 transition-colors duration-200"
                   >
                     <Linkedin size={15} />
                   </a>
@@ -417,7 +418,7 @@ function App() {
                   <a
                     href="https://github.com/Aaroophan"
                     aria-label="GitHub"
-                    className="hover:text-blue-600 transition-colors duration-200"
+                    className="hover:text-blue-50 transition-colors duration-200"
                   >
                     <Github size={15} />
                   </a>

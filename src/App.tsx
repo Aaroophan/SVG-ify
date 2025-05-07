@@ -31,7 +31,7 @@ function App() {
     setSvgResult(null);
 
     try {
-      const response = await fetch('http://localhost:8000/text-to-path', {
+      const response = await fetch('http://SVG-ify-API.onrender.com/text-to-path', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

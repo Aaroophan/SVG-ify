@@ -5,7 +5,6 @@ import os
 import sys
 from pathlib import Path
 
-# Add the project root directory to Python path
 project_root = str(Path(__file__).parent.parent)
 if project_root not in sys.path:
     sys.path.append(project_root)
@@ -25,14 +24,15 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"]
 )
 
 @app.post("/text-to-path", response_model=SVGResponse)
+@app.options("/text-to-path", include_in_schema=False)
 async def text_to_path(request: TextRequest):
     print("request")
     print(request)
     try:
-        # Generate SVG with font family
         svg_content = generate_svg(
             text=request.text,
             font_family=request.font_family,
@@ -58,7 +58,5 @@ async def root():
     }
 
 if __name__ == "__main__":
-    # Get port from environment variable or default to 8000
     port = int(os.getenv("PORT", 8000))
-    # Bind to 0.0.0.0 to make it accessible externally
     uvicorn.run("server.main:app", host="0.0.0.0", port=port, reload=True)

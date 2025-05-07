@@ -21,14 +21,25 @@ def get_font_path(font_family: str) -> str:
     
     # This is a basic mapping - you should expand this with actual font files
     font_mapping = {
-        # Arial variations
+        # Arial family
         "Arial": os.path.join(fonts_dir, "arial.ttf"),
-        "Arial Black": os.path.join(fonts_dir, "arial-black.ttf"),
-        "Arial Narrow": os.path.join(fonts_dir, "arial-narrow.ttf"),
+        "Arial Bold": os.path.join(fonts_dir, "arialbd.ttf"),
+        "Arial Italic": os.path.join(fonts_dir, "ariali.ttf"),
+        "Arial Bold Italic": os.path.join(fonts_dir, "arialbi.ttf"),
+        "Arial Black": os.path.join(fonts_dir, "ariblk.ttf"),
         
-        # Times variations
+        # Arial Narrow family
+        "Arial Narrow": os.path.join(fonts_dir, "arialn.TTF"),
+        "Arial Narrow Bold": os.path.join(fonts_dir, "ARIALNB.TTF"),
+        "Arial Narrow Bold Italic": os.path.join(fonts_dir, "ARIALNBI.TTF"),
+        "Arial Narrow Italic": os.path.join(fonts_dir, "ARIALNI.TTF"),
+        
+        # Times family
         "Times": os.path.join(fonts_dir, "times.ttf"),
         "Times New Roman": os.path.join(fonts_dir, "times.ttf"),
+        "Times Bold": os.path.join(fonts_dir, "timesbd.ttf"),
+        "Times Bold Italic": os.path.join(fonts_dir, "timesbi.ttf"),
+        "Times Italic": os.path.join(fonts_dir, "timesi.ttf"),
         
         # Google Fonts
         "Roboto": os.path.join(fonts_dir, "Roboto-Regular.ttf"),
@@ -37,13 +48,43 @@ def get_font_path(font_family: str) -> str:
         "Montserrat": os.path.join(fonts_dir, "Montserrat-Regular.ttf"),
         "Poppins": os.path.join(fonts_dir, "Poppins-Regular.ttf"),
         
-        # Other common fonts
+        # Script/handwriting fonts
+        "Brush Script MT": os.path.join(fonts_dir, "BRUSHSCI.TTF"),
+        "Freestyle Script": os.path.join(fonts_dir, "FREESCPT.TTF"),
+        "Mistral": os.path.join(fonts_dir, "MISTRAL.TTF"),
+        "Segoe Script": os.path.join(fonts_dir, "segoesc.ttf"),
+        "Segoe Print": os.path.join(fonts_dir, "segoepr.ttf"),
+        "Ink Free": os.path.join(fonts_dir, "Inkfree.ttf"),
+        "Matura MT Script Capitals": os.path.join(fonts_dir, "MATURASC.TTF"),
+        "Lucida Handwriting": os.path.join(fonts_dir, "LHANDW.TTF"),
+        
+        # Monospace fonts
+        "Courier New": os.path.join(fonts_dir, "cour.ttf"),
+        "Courier New Bold": os.path.join(fonts_dir, "courbd.ttf"),
+        "Courier New Italic": os.path.join(fonts_dir, "couri.ttf"),
+        "Courier New Bold Italic": os.path.join(fonts_dir, "courbi.ttf"),
+        
+        # Decorative fonts
+        "Showcard Gothic": os.path.join(fonts_dir, "SHOWG.TTF"),
+        "Agency FB": os.path.join(fonts_dir, "AGENCYR.TTF"),
+        "Agency FB Bold": os.path.join(fonts_dir, "AGENCYB.TTF"),
+        "Harlow Solid Italic": os.path.join(fonts_dir, "HARLOWSI.TTF"),
+        
+        # System fonts
         "Helvetica": os.path.join(fonts_dir, "helvetica.ttf"),
         "Verdana": os.path.join(fonts_dir, "verdana.ttf"),
         "Georgia": os.path.join(fonts_dir, "georgia.ttf"),
-        "Courier New": os.path.join(fonts_dir, "cour.ttf"),
         "Tahoma": os.path.join(fonts_dir, "tahoma.ttf"),
         "Trebuchet MS": os.path.join(fonts_dir, "trebuc.ttf"),
+        "Comic Sans MS": os.path.join(fonts_dir, "comic.ttf"),
+        
+        # Additional variants
+        "Verdana Bold": os.path.join(fonts_dir, "verdanab.ttf"),
+        "Verdana Italic": os.path.join(fonts_dir, "verdanai.ttf"),
+        "Verdana Bold Italic": os.path.join(fonts_dir, "verdanaz.ttf"),
+        "Georgia Bold": os.path.join(fonts_dir, "georgiab.ttf"),
+        "Georgia Italic": os.path.join(fonts_dir, "georgiai.ttf"),
+        "Georgia Bold Italic": os.path.join(fonts_dir, "georgiaz.ttf")
     }
     
     font_path = font_mapping.get(font_family)

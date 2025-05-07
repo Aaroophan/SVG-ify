@@ -1,0 +1,3 @@
+"""
+SVG-ify server package
+"""

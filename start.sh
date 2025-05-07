@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-cd server
-uvicorn main:app --host 0.0.0.0 --port $PORT 
+# Run from project root directory
+uvicorn server.main:app --host 0.0.0.0 --port $PORT 

@@ -2,9 +2,16 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 import os
+import sys
+from pathlib import Path
 
-from models import TextRequest, SVGResponse
-from svg_generator import generate_svg
+# Add the project root directory to Python path
+project_root = str(Path(__file__).parent.parent)
+if project_root not in sys.path:
+    sys.path.append(project_root)
+
+from server.models import TextRequest, SVGResponse
+from server.svg_generator import generate_svg
 
 app = FastAPI(
     title="Text-to-Multi-Path SVG API",
@@ -54,4 +61,4 @@ if __name__ == "__main__":
     # Get port from environment variable or default to 8000
     port = int(os.getenv("PORT", 8000))
     # Bind to 0.0.0.0 to make it accessible externally
-    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)
+    uvicorn.run("server.main:app", host="0.0.0.0", port=port, reload=True)

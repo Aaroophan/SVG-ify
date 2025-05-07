@@ -67,7 +67,7 @@ uvicorn main:app --reload --host 0.0.0.0 --port 8000
 npm run dev
 ```
 
-3. Open your browser and navigate to `http://localhost:5173`
+3. Open your browser and navigate to `https://aaroophan.github.io/SVG-ify`
 
 ## API Usage
 

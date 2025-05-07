@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+import os
 
 from models import TextRequest, SVGResponse
 from svg_generator import generate_svg
@@ -50,4 +51,7 @@ async def root():
     }
 
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="localhost", port=8000, reload=True)
+    # Get port from environment variable or default to 8000
+    port = int(os.getenv("PORT", 8000))
+    # Bind to 0.0.0.0 to make it accessible externally
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=True)

@@ -4,6 +4,7 @@ import uvicorn
 import os
 import sys
 from pathlib import Path
+from pydantic import BaseModel, Field
 
 project_root = str(Path(__file__).parent.parent)
 if project_root not in sys.path:
@@ -11,6 +12,19 @@ if project_root not in sys.path:
 
 from server.models import TextRequest, SVGResponse
 from server.svg_generator import generate_svg
+
+class TextRequest(BaseModel):
+    text: str = Field(..., description="Text to convert to SVG")
+    font_family: str = Field(..., description="Font family to use")
+    font_size: int = Field(..., description="Font size in pixels")
+    fill_color: str = Field(..., description="Fill color for the SVG paths")
+    stroke_width: float = Field(0, description="Width of the stroke (0 for no stroke)")
+    stroke_color: str = Field(None, description="Color of the stroke (None for no stroke)")
+    animate: bool = Field(False, description="Whether to add animation")
+    random_colors: bool = Field(False, description="Whether to use random colors for each stroke")
+
+class SVGResponse(BaseModel):
+    svg: str
 
 app = FastAPI(
     title="Text-to-Multi-Path SVG API",
@@ -37,7 +51,11 @@ async def text_to_path(request: TextRequest):
             text=request.text,
             font_family=request.font_family,
             font_size=request.font_size,
-            fill_color=request.fill_color
+            fill_color=request.fill_color,
+            stroke_width=request.stroke_width,
+            stroke_color=request.stroke_color,
+            animate=request.animate,
+            random_colors=request.random_colors
         )
         
         return {"svg": svg_content}

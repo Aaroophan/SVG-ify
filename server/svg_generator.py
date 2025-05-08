@@ -1,10 +1,13 @@
 import xml.dom.minidom as minidom
 from typing import Dict, List, Any, Tuple
 from fontTools.ttLib import TTFont
+from fontTools.pens.ttGlyphPen import TTGlyphPen
+from fontTools.pens.basePen import BasePen
 from fontTools.pens.svgPathPen import SVGPathPen
 import io
 import base64
 import os
+import random
 
 def get_font_path(font_family: str) -> str:
     """
@@ -96,7 +99,78 @@ def get_font_path(font_family: str) -> str:
     
     return font_path
 
-def generate_svg(text: str, font_family: str, font_size: int, fill_color: str) -> str:
+class SVGContourPen(BasePen):
+    def __init__(self, glyphSet):
+        super().__init__(glyphSet)
+        self.contours = []
+        self.current_contour = []
+        self.current_point = None
+
+    def _moveTo(self, pt):
+        if self.current_contour:
+            self.contours.append(self.current_contour)
+        self.current_contour = [('M', pt)]
+        self.current_point = pt
+
+    def _lineTo(self, pt):
+        self.current_contour.append(('L', pt))
+        self.current_point = pt
+
+    def _curveToOne(self, pt1, pt2, pt3):
+        self.current_contour.append(('C', (pt1, pt2, pt3)))
+        self.current_point = pt3
+
+    def _qCurveToOne(self, pt1, pt2):
+        self.current_contour.append(('Q', (pt1, pt2)))
+        self.current_point = pt2
+
+    def _closePath(self):
+        if self.current_contour:
+            self.current_contour.append(('Z', None))
+            self.contours.append(self.current_contour)
+            self.current_contour = []
+            self.current_point = None
+
+    def get_contours(self):
+        if self.current_contour:
+            self.contours.append(self.current_contour)
+        return self.contours
+
+def get_random_color() -> str:
+    """Generate a random color in hex format."""
+    return f"#{random.randint(0, 0xFFFFFF):06x}"
+
+def optimize_path_data(path_data: str) -> str:
+    """Optimize SVG path data by removing unnecessary whitespace and decimals."""
+    # Remove extra whitespace
+    path_data = ' '.join(path_data.split())
+    
+    # Remove unnecessary decimal places
+    parts = path_data.split()
+    optimized = []
+    for part in parts:
+        if part.isalpha():
+            optimized.append(part)
+        else:
+            # Keep only 2 decimal places
+            try:
+                num = float(part)
+                optimized.append(f"{num:.2f}".rstrip('0').rstrip('.'))
+            except ValueError:
+                optimized.append(part)
+    
+    return ' '.join(optimized)
+
+def generate_svg(
+    text: str, 
+    font_family: str, 
+    font_size: int, 
+    fill_color: str,
+    stroke_width: float = 0,
+    stroke_color: str = None,
+    animate: bool = False,
+    random_colors: bool = False
+) -> str:
     """
     Generate an SVG with individual path elements for each character's strokes.
     
@@ -105,6 +179,10 @@ def generate_svg(text: str, font_family: str, font_size: int, fill_color: str) -
         font_family: The font family to use
         font_size: Font size in pixels
         fill_color: Fill color for the SVG paths
+        stroke_width: Width of the stroke (0 for no stroke)
+        stroke_color: Color of the stroke (None for no stroke)
+        animate: Whether to add animation
+        random_colors: Whether to use random colors for each stroke
         
     Returns:
         SVG as a string
@@ -115,6 +193,24 @@ def generate_svg(text: str, font_family: str, font_size: int, fill_color: str) -
     
     # Set SVG namespace
     svg.setAttribute("xmlns", "http://www.w3.org/2000/svg")
+    
+    # Add animation definitions if needed
+    if animate:
+        defs = doc.createElement("defs")
+        style = doc.createElement("style")
+        style.textContent = """
+            @keyframes draw {
+                from { stroke-dashoffset: 1000; }
+                to { stroke-dashoffset: 0; }
+            }
+            .animated-path {
+                stroke-dasharray: 1000;
+                stroke-dashoffset: 1000;
+                animation: draw 2s ease-in-out forwards;
+            }
+        """
+        defs.appendChild(style)
+        svg.appendChild(defs)
     
     # Load the font
     try:
@@ -150,10 +246,30 @@ def generate_svg(text: str, font_family: str, font_size: int, fill_color: str) -
             glyph.draw(pen)
             path_data = pen.getCommands()
             
+            # Optimize path data
+            path_data = optimize_path_data(path_data)
+            
             # Create path element
             path = doc.createElement("path")
             path.setAttribute("d", path_data)
-            path.setAttribute("fill", fill_color)
+            
+            # Set fill color (random or specified)
+            if random_colors:
+                path.setAttribute("fill", get_random_color())
+            else:
+                path.setAttribute("fill", fill_color)
+            
+            # Set stroke properties if specified
+            if stroke_width > 0:
+                path.setAttribute("stroke", stroke_color or fill_color)
+                path.setAttribute("stroke-width", str(stroke_width))
+                path.setAttribute("stroke-linecap", "round")
+                path.setAttribute("stroke-linejoin", "round")
+                
+                # Add animation if requested
+                if animate:
+                    path.setAttribute("class", "animated-path")
+            
             path.setAttribute("transform", f"scale({scale_factor}, {-scale_factor})")
             
             # Add path to character group
